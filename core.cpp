@@ -86,7 +86,7 @@ int FloorPlan::fm_once(function<bool(const unsigned)> condition) {
 
 void FloorPlan::fm() {
     init_gains();
-    check_gains();
+    check_gains(); //on assert
 
     init_bucket();
 

@@ -102,6 +102,13 @@ void split_parts_into_id_subsets(const vector<int>& parts_of_type_set,
 }
 
 int main(int argc, char const* argv[]) {
+    //TODO: 
+    //1) in core.cpp in naive give sides to cells in order to make all connected cells live together (soph = false)
+    //2) in core.cpp in fm, fm once, init_gains set gains of connected nodes to int_min in order to not move them
+    //3) in io.cpp change input and output so that connected cells wont filp (never, they must stay in their sides)
+    //4) in io.cpp ?maybe add vector of connected cells in output file to make control easier
+    //5) also need to change init.cpp
+
     log_release_mode();
 
     //input data, making incidence list in order to do fm
@@ -153,7 +160,7 @@ int main(int argc, char const* argv[]) {
     const unsigned tolerate = static_cast<unsigned>(bal * csize);
     fp.tolerate(tolerate);
 
-    constexpr bool soph = true;
+    constexpr bool soph = false;
     fp.init_side<soph>();
 
     debug_printf(

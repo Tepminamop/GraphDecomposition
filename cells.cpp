@@ -4,6 +4,10 @@ using namespace std;
 
 Cell::Cell() : _side(0), _gain(0), _nets(vector<unsigned>()) {}
 
+void Cell::set_gain(int gain) {
+    this->_gain = gain;
+}
+
 void Cell::flip() {
     _side = !_side;
 }
