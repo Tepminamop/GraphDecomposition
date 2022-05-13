@@ -1,0 +1,35 @@
+﻿  buckets.cpp
+C:\GitHub\FM\GraphDecomposition\buckets.cpp(14,24): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+  cells.cpp
+C:\GitHub\FM\GraphDecomposition\cells.cpp(44,24): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+  core.cpp
+C:\GitHub\FM\GraphDecomposition\core.cpp(19,39): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(19,39): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(52,37): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(93,39): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(93,39): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(123,39): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\core.cpp(123,39): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+  getset.cpp
+  helper.cpp
+  init.cpp
+C:\GitHub\FM\GraphDecomposition\init.cpp(8,62): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\init.cpp(8,62): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\init.cpp(10,43): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\init.cpp(10,43): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+  io.cpp
+C:\GitHub\FM\GraphDecomposition\io.cpp(53,37): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\io.cpp(54,37): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\io.cpp(72,46): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\io.cpp(80,46): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+  main.cpp
+C:\GitHub\FM\GraphDecomposition\main.cpp(149,44): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\main.cpp(149,44): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\main.cpp(150,44): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\main.cpp(150,44): warning C4267: инициализация: преобразование из "size_t" в "const unsigned int"; возможна потеря данных
+  nets.cpp
+C:\GitHub\FM\GraphDecomposition\nets.cpp(16,39): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\GitHub\FM\GraphDecomposition\nets.cpp(48,25): warning C4267: return: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+  utils.cpp
+  Создание кода...
+  FM.vcxproj -> C:\GitHub\FM\GraphDecomposition\x64\Debug\FM.exe
