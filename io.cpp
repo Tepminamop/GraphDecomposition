@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
+#include <set>
 
 using namespace std;
 
@@ -162,4 +163,46 @@ void FloorPlan::output(const string fname, const int set1, const int set2, const
 
     file << "Count " << set1 << ": " << true_count << true_ss.str();
     file << "Count " << set2 << ": " << false_count << false_ss.str();
+
+    file.close();
+}
+
+void FloorPlan::output_to_decomposite(const string fname, const int set1, const int set2, const int subset1, const int subset2) {
+    stringstream ss;
+    auto file = ofstream(fname);
+    set<unsigned int> connected_vertices;
+
+    for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
+        const Net* net = _nmap[idx];
+        if (net->true_count() && net->false_count()) {
+            for (auto cell : net->cells()) {
+                connected_vertices.insert(cell);
+            }
+        }
+    }
+
+    file << 0.01 << '\n'; //balance factor
+    unsigned int counter = 0;
+    for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
+        const Net* net = _nmap[idx];
+        if (net->true_count() && net->false_count()) {
+            continue;
+        }
+        else if (net->true_count()) {
+            file << "NET n" << counter << " ";
+            counter++;
+            for (auto cell : net->cells()) {
+                if (connected_vertices.find(cell) == connected_vertices.end()) {
+                    file << cell << " ";
+                }
+            }
+
+            file << ";\n";
+        }
+        else {
+            //make another file with false cells to decomposite
+        }
+    }
+
+    file.close();
 }

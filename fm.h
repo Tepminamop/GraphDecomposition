@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <set>
 
 #include "buckets.h"
 #include "cells.h"
@@ -30,6 +31,7 @@ class FloorPlan {
 
     void input(const std::string fname);
     void output(const std::string name, const int set1, const int set2, const int subset1, const int subset2);
+    void output_to_decomposite(const std::string name, const int set1, const int set2, const int subset1, const int subset2);
 
     double balance() const;
 
@@ -38,7 +40,12 @@ class FloorPlan {
 
     void tolerate(unsigned amount);
 
+    void set_connected_vertices(std::set<int>& connected_vertices) {
+        this->_connected_vertices = connected_vertices;
+    }
+
    private:
+    std::set<int> _connected_vertices;
     std::vector<Net*> _nmap;
     std::vector<Cell*> _cmap;
     std::vector<std::string> _nnames;

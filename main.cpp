@@ -6,6 +6,7 @@
 #include <fstream>
 #include <ctime>
 #include <time.h>
+#include <set>
 
 #include "cells.h"
 #include "fm.h"
@@ -110,6 +111,10 @@ int main(int argc, char const* argv[]) {
     //5) also need to change init.cpp
 
     log_release_mode();
+    /*set<int> verts;
+    for (int i = 0; i < 5900; i++) {
+        verts.insert(i);
+    }*/
 
     //input data, making incidence list in order to do fm
     cout << "Input number of vertices: " << '\n';
@@ -146,6 +151,7 @@ int main(int argc, char const* argv[]) {
     myfile.close();
 
     FloorPlan fp;
+    //fp.set_connected_vertices(verts);
     //input = "input_1.dat";
     string input = "incidence.txt";
     string output = "out_1.txt";
@@ -171,6 +177,7 @@ int main(int argc, char const* argv[]) {
 
     fp.fm();
     fp.output(output, 0, 1, 0, 0);
+    fp.output_to_decomposite("try.txt", 0, 1, 0, 0);
 
     debug_printf("Program exit.\n");
 
