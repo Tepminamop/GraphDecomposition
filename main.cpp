@@ -166,7 +166,7 @@ int main(int argc, char const* argv[]) {
     const unsigned tolerate = static_cast<unsigned>(bal * csize);
     fp.tolerate(tolerate);
 
-    constexpr bool soph = false;
+    constexpr bool soph = true;
     fp.init_side<soph>();
 
     debug_printf(
@@ -177,7 +177,9 @@ int main(int argc, char const* argv[]) {
 
     fp.fm();
     fp.output(output, 0, 1, 0, 0);
-    fp.output_to_decomposite("try.txt", 0, 1, 0, 0);
+    set<unsigned int> first_connected_vertices_true;
+    set<unsigned int> first_connected_vertices_false;
+    fp.output_to_decomposite("true.txt", "false.txt", 0, 1, 0, 0, first_connected_vertices_true, first_connected_vertices_false, csize);
 
     debug_printf("Program exit.\n");
 
