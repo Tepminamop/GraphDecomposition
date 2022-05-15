@@ -6,6 +6,11 @@
 #include <fstream>
 #include <ctime>
 #include <time.h>
+<<<<<<< Updated upstream
+=======
+#include <set>
+#include <sstream>
+>>>>>>> Stashed changes
 
 #include "cells.h"
 #include "fm.h"
@@ -37,6 +42,35 @@ void input_graph(vector<vector<int>>& input_data,
             input_count_edges = max(input_count_edges, input);
         }
     }
+}
+
+void input_graph_from_file(vector<vector<int>>& input_data,
+        const int& count_vertices,
+        int& input_count_edges){
+    string str;
+    std::fstream in;
+    in.open("kuk_top.nls");
+    if (in) {
+        while (!in.eof()) {
+            while (getline(in, str, '\n') && !in.eof()) {
+                vector<int> result;
+                stringstream ss(str);
+                string item;
+                cout << str << endl;
+                while (getline(ss, item, ' ')) {
+                    result.push_back(stoi(item));
+                }
+                //for (auto i :result) cout << i << endl;
+                for (int i = 1; i < result.size(); i++) {
+                    input_data[result[0]].push_back(result[i]);
+                    input_count_edges = max(input_count_edges, result[i]);
+                }
+                result.clear();
+            }
+        }
+        in.close();
+    }
+    else(cout << "Error with kuk_top.nls file!");
 }
 
 void make_incidence_list(vector<vector<int>>& incidence_list,
@@ -117,7 +151,8 @@ int main(int argc, char const* argv[]) {
     const int COUNT_VERTICES = input_count_vertices;
     vector<vector<int>> input_data(COUNT_VERTICES);
     int input_count_edges = -1;
-    input_graph(input_data, COUNT_VERTICES, input_count_edges);
+    //input_graph(input_data, COUNT_VERTICES, input_count_edges);
+    input_graph_from_file(input_data, COUNT_VERTICES, input_count_edges);
     const int COUNT_EDGES = input_count_edges + 1;
 
     vector<vector<int>> incidence_list(COUNT_EDGES);
