@@ -1,6 +1,4 @@
 Cutsize: 741
-Count related vertices from 0 subset: 2006
-Count related vertices from 1 subset: 1681
 Count 0: 5934
 0 0 10531
 0 0 321

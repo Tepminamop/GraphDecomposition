@@ -45,6 +45,8 @@ class FloorPlan {
         this->_connected_vertices = connected_vertices;
     }
 
+    void get_true_false_count(unsigned int& true_count, unsigned int& false_count);
+
    private:
     std::set<int> _connected_vertices;
     std::vector<Net*> _nmap;

@@ -122,20 +122,14 @@ void FloorPlan::output(const string fname, const int set1, const int set2, const
     auto file = ofstream(fname);
 
     unsigned cut_size = 0;
-    unsigned count_related_vertices_true = 0;
-    unsigned count_related_vertices_false = 0;
     for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
         const Net* net = _nmap[idx];
         if (net->true_count() && net->false_count()) {
             ++cut_size;
-            count_related_vertices_true += net->true_count();
-            count_related_vertices_false += net->false_count();
         }
     }
 
     ss << "Cutsize: " << cut_size << "\n";
-    ss << "Count related vertices from " << set1 << " subset: " << count_related_vertices_true << '\n';
-    ss << "Count related vertices from " << set2 << " subset: " << count_related_vertices_false << '\n';
     file << ss.str();
 
     stringstream true_ss, false_ss;
@@ -195,8 +189,26 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
         }
     }
 
-    double balance_factor_true = (double)connected_vertices_true.size() / (double)(2 * size);
-    double balance_factor_false = (double)connected_vertices_false.size() / (double)(2 * size);
+    //size of subgraphs
+    /*unsigned int true_count = 0;
+    unsigned int false_count = 0;
+    for (unsigned idx = 0; idx < _cmap.size(); ++idx) {
+        const string name = _cnames[idx];
+        const Cell* cell = _cmap[idx];
+        if (cell->side()) {
+            ++true_count;
+        }
+        else {
+            ++false_count;
+        }
+    }*/
+
+    cout << connected_vertices_true.size() << '\n';
+    cout << connected_vertices_false.size() << '\n';
+    int SIZE_TRUE = size - (int)connected_vertices_true.size();
+    int SIZE_FALSE = size - (int)connected_vertices_false.size();
+    double balance_factor_true = (double)connected_vertices_true.size() / ((double)(SIZE_TRUE));
+    double balance_factor_false = (double)connected_vertices_false.size() / ((double)(SIZE_FALSE));
     file_true << balance_factor_true << '\n'; //balance factor
     file_false << balance_factor_false << '\n';
     unsigned int counter_true = 0;
@@ -243,5 +255,17 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
         }
     }
 
-    assert(cell_counter + connected_vertices_true.size() + connected_vertices_false.size() == size);
+    //assert(cell_counter + connected_vertices_true.size() + connected_vertices_false.size() == size);
+}
+
+void FloorPlan::get_true_false_count(unsigned int& true_count, unsigned int& false_count) {
+    for (unsigned idx = 0; idx < _cmap.size(); ++idx) {
+        const Cell* cell = _cmap[idx];
+        if (cell->side()) {
+            true_count++;
+        }
+        else {
+            false_count++;
+        }
+    }
 }
