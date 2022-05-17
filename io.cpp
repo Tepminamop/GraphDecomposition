@@ -173,7 +173,7 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
         const Net* net = _nmap[idx];
         if (net->true_count() && net->false_count()) {
             for (auto cell : net->cells()) {
-                connected_vertices.insert(cell);
+                connected_vertices.insert(cell);//if there are same cells add only one (set?)
             }
         }
     }
@@ -186,22 +186,9 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
         }
         else {
             connected_vertices_false.insert(*iterator);
+
         }
     }
-
-    //size of subgraphs
-    /*unsigned int true_count = 0;
-    unsigned int false_count = 0;
-    for (unsigned idx = 0; idx < _cmap.size(); ++idx) {
-        const string name = _cnames[idx];
-        const Cell* cell = _cmap[idx];
-        if (cell->side()) {
-            ++true_count;
-        }
-        else {
-            ++false_count;
-        }
-    }*/
 
     cout << connected_vertices_true.size() << '\n';
     cout << connected_vertices_false.size() << '\n';

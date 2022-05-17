@@ -131,13 +131,6 @@ void input_graph_from_file(vector<vector<int>>& input_data,
 }
 
 int main(int argc, char const* argv[]) {
-    //TODO: 
-    //1) in core.cpp in naive give sides to cells in order to make all connected cells live together (soph = false)
-    //2) in core.cpp in fm, fm once, init_gains set gains of connected nodes to int_min in order to not move them
-    //3) in io.cpp change input and output so that connected cells wont filp (never, they must stay in their sides)
-    //4) in io.cpp ?maybe add vector of connected cells in output file to make control easier
-    //5) also need to change init.cpp
-
     log_release_mode();
     /*set<int> verts;
     for (int i = 0; i < 5900; i++) {
