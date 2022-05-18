@@ -162,7 +162,7 @@ void FloorPlan::output(const string fname, const int set1, const int set2, const
 }
 
 void FloorPlan::output_to_decomposite(const string fname1, const string fname2, const int set1, const int set2, const int subset1, const int subset2,
-    set<unsigned int>& connected_vertices_true, set<unsigned int>& connected_vertices_false, const unsigned int size) {
+    set<unsigned int>& connected_vertices_true, set<unsigned int>& connected_vertices_false, const unsigned int size, const unsigned int conn_size_true, const unsigned int conn_size_false) {
     stringstream ss;
     auto file_true = ofstream(fname1);
     auto file_false = ofstream(fname2);
@@ -192,10 +192,10 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
 
     cout << connected_vertices_true.size() << '\n';
     cout << connected_vertices_false.size() << '\n';
-    int SIZE_TRUE = size - (int)connected_vertices_true.size();
+    int SIZE_TRUE = size - (int)connected_vertices_true.size() - conn_size_true;
     int SIZE_FALSE = size - (int)connected_vertices_false.size();
     double balance_factor_true = (double)connected_vertices_true.size() / ((double)(SIZE_TRUE));
-    double balance_factor_false = (double)connected_vertices_false.size() / ((double)(SIZE_FALSE));
+    double balance_factor_false = ((double)connected_vertices_false.size() + (double)conn_size_false) / ((double)(SIZE_FALSE));
     file_true << balance_factor_true << '\n'; //balance factor
     file_false << balance_factor_false << '\n';
     unsigned int counter_true = 0;
@@ -255,4 +255,86 @@ void FloorPlan::get_true_false_count(unsigned int& true_count, unsigned int& fal
             false_count++;
         }
     }
+}
+
+void FloorPlan::output_to_decomposite_without_connection_control(const string fname1, const string fname2, const int set1, const int set2, const int subset1, const int subset2,
+    set<unsigned int>& connected_vertices_true, set<unsigned int>& connected_vertices_false) {
+    stringstream ss_true, ss_false;
+    auto file_true = ofstream(fname1);
+    auto file_false = ofstream(fname2);
+    set<unsigned int> connected_vertices;
+
+    //balance factor
+    double balance_factor_true = 0.01;
+    double balance_factor_false = 0.01;
+
+    file_true << balance_factor_true << '\n';
+    file_false << balance_factor_false << '\n';
+
+    unsigned int counter_true = 0;
+    unsigned int counter_false = 0;
+
+    for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
+        const Net* net = _nmap[idx];
+        if (net->true_count() && net->false_count()) {
+            //continue;
+            //if there are same cells add only one (set?), NEED TO CHECK THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            ss_true << "NET n" << counter_true << " ";
+            counter_true++;
+
+            ss_false << "NET n" << counter_false << " ";
+            counter_false++;
+
+            for (auto cell_int : net->cells()) {
+                Cell* cell = _cmap[cell_int];
+                if (cell->side()) {
+                    connected_vertices_true.insert(cell_int);
+
+                    ss_true << cell_int << " ";
+                }
+                else {
+                    connected_vertices_false.insert(cell_int);
+
+                    ss_false << cell_int << " ";
+                }
+            }
+
+            ss_true << ";\n";
+            ss_false << ";\n";
+
+            file_true << ss_true.str();
+            file_false << ss_false.str();
+
+            ss_true.clear();
+            ss_false.clear();
+        }
+        else if (net->true_count()) {
+            file_true << "NET n" << counter_true << " ";
+            counter_true++;
+            for (auto cell : net->cells()) {
+                if (connected_vertices_true.find(cell) == connected_vertices_true.end()) {
+                    file_true << cell << " ";
+                }
+            }
+
+            file_true << ";\n";
+        }
+        else {
+            file_false << "NET n" << counter_false << " ";
+            counter_false++;
+            for (auto cell : net->cells()) {
+                if (connected_vertices_false.find(cell) == connected_vertices_false.end()) {
+                    file_false << cell << " ";
+                }
+            }
+
+            file_false << ";\n";
+        }
+    }
+
+    cout << "\nConnected vertices true size: " << connected_vertices_true.size() << '\n';
+    cout << "Connected vertices false size: " << connected_vertices_false.size() << '\n';
+
+    file_true.close();
+    file_false.close();
 }

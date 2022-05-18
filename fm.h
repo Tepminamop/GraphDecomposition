@@ -32,7 +32,10 @@ class FloorPlan {
     void input(const std::string fname);
     void output(const std::string name, const int set1, const int set2, const int subset1, const int subset2);
     void output_to_decomposite(const std::string fname1, const std::string fname2, const int set1, const int set2, const int subset1, const int subset2, 
-        std::set<unsigned int>& connected_vertices_true, std::set<unsigned int>& connected_vertices_false, const unsigned int size);
+        std::set<unsigned int>& connected_vertices_true, std::set<unsigned int>& connected_vertices_false, const unsigned int size, const unsigned int conn_size_true, const unsigned int conn_size_false);
+
+    void output_to_decomposite_without_connection_control(const std::string fname1, const std::string fname2, const int set1, const int set2, const int subset1, const int subset2,
+        std::set<unsigned int>& connected_vertices_true, std::set<unsigned int>& connected_vertices_false);
 
     double balance() const;
 
