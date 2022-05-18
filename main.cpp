@@ -176,7 +176,6 @@ int main(int argc, char const* argv[]) {
     }
     myfile.close();
 
-
     unsigned int size_true_1 = 0;
     unsigned int size_false_1 = 0;
     unsigned int size_true_2 = 0;
@@ -192,8 +191,16 @@ int main(int argc, char const* argv[]) {
     unsigned int size_true_7 = 0;
     unsigned int size_false_7 = 0;
 
+    vector<unsigned int> vertices_after_decomposition;
+    set<unsigned int> empty;
 
-    //FIRST
+    //TODO:
+    //1) in io.cpp, change output (need to output not cell_int, but _cnames[cell_int])
+    //2) in io.cpp, change cell side for first_connection_vertices_true from false to true
+    //3) in io.cpp, move from set<> of net->cells() to set<> of _cnames[] 
+
+
+    //FIRST (READ FROM .nls FILE)
     FloorPlan fp_1;
     string input_first = "incidence.txt";
     //string output = "out_1.txt";
@@ -219,18 +226,19 @@ int main(int argc, char const* argv[]) {
     //fp.output(output, 0, 1, 0, 0);
     set<unsigned int> first_connected_vertices_true;
     set<unsigned int> first_connected_vertices_false;
-    fp_1.output_to_decomposite_without_connection_control("true_1.txt", "false_1.txt", 0, 1, 0, 0, first_connected_vertices_true, first_connected_vertices_false);
+    fp_1.output_to_decomposite_without_connection_control("true_1.txt", "false_1.txt", 0, 1, 0, 0, first_connected_vertices_true, first_connected_vertices_false, empty, false);
     fp_1.get_true_false_count(size_true_1, size_false_1);
 
 
     //SECOND
+    vertices_after_decomposition.clear();
     FloorPlan fp_2;
     string input_second = "true_1.txt";
     //string output = "out_1.txt";
     fp_2.input(input_second);
 
     const unsigned nsize_2 = fp_2.nmap().size();
-    const unsigned csize_2 = fp_2.cmap().size() /* + first_connected_vertices_true.size()*/;//?????????????????????
+    const unsigned csize_2 = fp_2.cmap().size();
     const double bal_2 = fp_2.balance();
 
     const unsigned tolerate_2 = static_cast<unsigned>(bal_2 * csize_2);
@@ -248,7 +256,7 @@ int main(int argc, char const* argv[]) {
     //fp.output(output, 0, 1, 0, 0);
     set<unsigned int> second_connected_vertices_true;
     set<unsigned int> second_connected_vertices_false;
-    fp_2.output_to_decomposite_without_connection_control("true_2.txt", "false_2.txt", 0, 1, 0, 0, second_connected_vertices_true, second_connected_vertices_false/*first_connected_vertices_true.size()*/ );
+    fp_2.output_to_decomposite_without_connection_control("true_2.txt", "false_2.txt", 0, 1, 0, 0, second_connected_vertices_true, second_connected_vertices_false, first_connected_vertices_true, false);
     fp_2.get_true_false_count(size_true_2, size_false_2);
 
 
@@ -259,7 +267,7 @@ int main(int argc, char const* argv[]) {
     fp_3.input(input_third);
 
     const unsigned nsize_3 = fp_3.nmap().size();
-    const unsigned csize_3 = fp_3.cmap().size() /* + first_connected_vertices_false.size()*/;//?????????????????????????
+    const unsigned csize_3 = fp_3.cmap().size();
     const double bal_3 = fp_3.balance();
 
     const unsigned tolerate_3 = static_cast<unsigned>(bal_3 * csize_3);
@@ -277,7 +285,7 @@ int main(int argc, char const* argv[]) {
     //fp.output(output, 0, 1, 0, 0);
     set<unsigned int> third_connected_vertices_true;
     set<unsigned int> third_connected_vertices_false;
-    fp_3.output_to_decomposite_without_connection_control("true_3.txt", "false_3.txt", 0, 1, 0, 0, third_connected_vertices_true, third_connected_vertices_false);
+    fp_3.output_to_decomposite_without_connection_control("true_3.txt", "false_3.txt", 0, 1, 0, 0, third_connected_vertices_true, third_connected_vertices_false, first_connected_vertices_false, true);
     fp_3.get_true_false_count(size_true_3, size_false_3);
 
 
@@ -421,7 +429,7 @@ int main(int argc, char const* argv[]) {
     //cout << size_true_6 + first_connected_vertices_true.size() + second_connected_vertices_true.size() << " " << size_false_6 << '\n';
     //cout << size_true_7 << " " << size_false_7 + first_connected_vertices_false.size() + third_connected_vertices_false.size() << '\n';
 
-    debug_printf("Program exit.\n");
+    debug_printf("\nProgram exit");
 
     return 0;
 }

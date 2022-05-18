@@ -47,3 +47,7 @@ const vector<unsigned>& Cell::nets() const {
 unsigned Cell::size() const {
     return _nets.size();
 }
+
+void Cell::set_side(bool side) {
+    this->_side = side;
+}

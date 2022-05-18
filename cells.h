@@ -16,6 +16,7 @@ class Cell {
     void inc_gain();
     void dec_gain();
     void set_gain(int gain);
+    void set_side(bool side);
 
     void push_net(unsigned net);
     const std::vector<unsigned>& nets() const;

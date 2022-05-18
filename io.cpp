@@ -77,7 +77,7 @@ void FloorPlan::input(const string fname) {
 
     for (auto iter : cmap_set) {
         const string name = iter.first;
-        if (rev_cnames.find(name) ==rev_cnames.end()) {
+        if (rev_cnames.find(name) == rev_cnames.end()) {
             rev_cnames[name] = _cnames.size();
             _cnames.push_back(name);
         }
@@ -258,7 +258,7 @@ void FloorPlan::get_true_false_count(unsigned int& true_count, unsigned int& fal
 }
 
 void FloorPlan::output_to_decomposite_without_connection_control(const string fname1, const string fname2, const int set1, const int set2, const int subset1, const int subset2,
-    set<unsigned int>& connected_vertices_true, set<unsigned int>& connected_vertices_false) {
+    set<unsigned int>& connected_vertices_true, set<unsigned int>& connected_vertices_false, set<unsigned int>& check_vertices, bool check_side) {
     stringstream ss_true, ss_false;
     auto file_true = ofstream(fname1);
     auto file_false = ofstream(fname2);
@@ -274,11 +274,24 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
     unsigned int counter_true = 0;
     unsigned int counter_false = 0;
 
+    //check cell connection
+    if (check_vertices.size() > 0) {
+        for (unsigned int idx = 0; idx < _cmap.size(); ++idx) {
+            Cell* cell = _cmap[idx];
+            int cell_name = stoi(_cnames[idx]);
+            if (cell->side() == check_side) {
+                if (check_vertices.find(cell_name) != check_vertices.end()) {
+                    cell->set_side(!check_side);
+                }
+            }
+        }
+    }
+    
+    //output to file
     for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
         const Net* net = _nmap[idx];
         if (net->true_count() && net->false_count()) {
-            //continue;
-            //if there are same cells add only one (set?), NEED TO CHECK THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //if there are same cells add only one (set?), NEED TO CHECK THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ss_true << "NET n" << counter_true << " ";
             counter_true++;
 
@@ -286,16 +299,26 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
             counter_false++;
 
             for (auto cell_int : net->cells()) {
+                //cout << cell_int << " " << _cnames[cell_int] << '\n'; //EROR HERE NEED TO OUTPUT _CELLNAMES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 Cell* cell = _cmap[cell_int];
+                int cell_name = stoi(_cnames[cell_int]);
                 if (cell->side()) {
-                    connected_vertices_true.insert(cell_int);
-
-                    ss_true << cell_int << " ";
+                    connected_vertices_true.insert(cell_name);
+                    ss_true << cell_name << " ";
                 }
                 else {
-                    connected_vertices_false.insert(cell_int);
+                    /*if (check_vertices.find(cell_int) != check_vertices.end()) {
+                        connected_vertices_true.insert(cell_int);
 
-                    ss_false << cell_int << " ";
+                        ss_true << cell_int << " ";
+                    }
+                    else {
+                        connected_vertices_false.insert(cell_int);
+
+                        ss_false << cell_int << " ";
+                    }*/
+                    connected_vertices_false.insert(cell_name);
+                    ss_false << cell_name << " ";
                 }
             }
 
@@ -312,8 +335,9 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
             file_true << "NET n" << counter_true << " ";
             counter_true++;
             for (auto cell : net->cells()) {
-                if (connected_vertices_true.find(cell) == connected_vertices_true.end()) {
-                    file_true << cell << " ";
+                int cell_name = stoi(_cnames[cell]);
+                if (connected_vertices_true.find(cell_name) == connected_vertices_true.end()) {
+                    file_true << cell_name << " ";
                 }
             }
 
@@ -323,8 +347,9 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
             file_false << "NET n" << counter_false << " ";
             counter_false++;
             for (auto cell : net->cells()) {
-                if (connected_vertices_false.find(cell) == connected_vertices_false.end()) {
-                    file_false << cell << " ";
+                int cell_name = stoi(_cnames[cell]);
+                if (connected_vertices_false.find(cell_name) == connected_vertices_false.end()) {
+                    file_false << cell_name << " ";
                 }
             }
 
