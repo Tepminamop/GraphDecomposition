@@ -190,8 +190,8 @@ void FloorPlan::output_to_decomposite(const string fname1, const string fname2, 
         }
     }
 
-    cout << connected_vertices_true.size() << '\n';
-    cout << connected_vertices_false.size() << '\n';
+    std::cout << connected_vertices_true.size() << '\n';
+    std::cout << connected_vertices_false.size() << '\n';
     int SIZE_TRUE = size - (int)connected_vertices_true.size() - conn_size_true;
     int SIZE_FALSE = size - (int)connected_vertices_false.size();
     double balance_factor_true = (double)connected_vertices_true.size() / ((double)(SIZE_TRUE));
@@ -262,7 +262,6 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
     stringstream ss_true, ss_false;
     auto file_true = ofstream(fname1);
     auto file_false = ofstream(fname2);
-    set<unsigned int> connected_vertices;
 
     //balance factor
     double balance_factor_true = 0.01;
@@ -274,19 +273,24 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
     unsigned int counter_true = 0;
     unsigned int counter_false = 0;
 
+    int cnt = 0;
+
     //check cell connection
-    if (check_vertices.size() > 0) {
-        for (unsigned int idx = 0; idx < _cmap.size(); ++idx) {
-            Cell* cell = _cmap[idx];
-            int cell_name = stoi(_cnames[idx]);
-            if (cell->side() == check_side) {
-                if (check_vertices.find(cell_name) != check_vertices.end()) {
-                    cell->set_side(!check_side);
-                }
-            }
-        }
-    }
-    
+    //if (check_vertices.size() > 0) {
+    //    for (unsigned int idx = 0; idx < _cmap.size(); ++idx) {
+    //        Cell* cell = _cmap[idx];
+    //        int cell_name = stoi(_cnames[idx]);
+    //        if (cell->side() == check_side) {
+    //            if (check_vertices.find(cell_name) != check_vertices.end()) {
+    //                cell->set_side(!check_side);
+    //                cnt++;
+    //            }
+    //        }
+    //    }
+    //}
+    //
+    //std::cout << "Swaps count: " << cnt << '\n';
+
     //output to file
     for (unsigned idx = 0; idx < _nmap.size(); ++idx) {
         const Net* net = _nmap[idx];
@@ -357,8 +361,8 @@ void FloorPlan::output_to_decomposite_without_connection_control(const string fn
         }
     }
 
-    cout << "\nConnected vertices true size: " << connected_vertices_true.size() << '\n';
-    cout << "Connected vertices false size: " << connected_vertices_false.size() << '\n';
+    //std::cout << "\nConnected vertices true size: " << connected_vertices_true.size() << '\n';
+    //std::cout << "Connected vertices false size: " << connected_vertices_false.size() << '\n';
 
     file_true.close();
     file_false.close();
