@@ -7,6 +7,7 @@
 #include <time.h>
 #include <set>
 #include <sstream>
+#include <time.h>
 
 #include "cells.h"
 #include "fm.h"
@@ -116,7 +117,7 @@ int main(int argc, char const* argv[]) {
     cout << "Input filename: " << '\n';
     string filename;
     //cin >> filename;
-    filename = "kuk_top.nls";
+    filename = "BK_I.nls";
     //filename = "TRINITY_1.nls";
     const int COUNT_VERTICES = input_count_vertices;
     vector<vector<int>> input_data(COUNT_VERTICES);
@@ -157,7 +158,7 @@ int main(int argc, char const* argv[]) {
     unsigned int size_true_7 = 0;
     unsigned int size_false_7 = 0;
 
-    vector<unsigned int> vertices_after_decomposition;
+    //vector<unsigned int> vertices_after_decomposition;
     set<unsigned int> empty;
 
     //TODO:
@@ -170,7 +171,10 @@ int main(int argc, char const* argv[]) {
     FloorPlan fp_1;
     string input_first = "incidence.txt";
     //string output = "out_1.txt";
+
     fp_1.input(input_first);
+
+    clock_t start = clock();//start of algorithm(fp_1);
 
     const unsigned nsize_1 = fp_1.nmap().size();
     const unsigned csize_1 = fp_1.cmap().size();
@@ -195,13 +199,17 @@ int main(int argc, char const* argv[]) {
     fp_1.output_to_decomposite_without_connection_control("true_1.txt", "false_1.txt", 0, 1, 0, 0, first_connected_vertices_true, first_connected_vertices_false, empty, false);
     fp_1.get_true_false_count(size_true_1, size_false_1);
 
+    clock_t end = clock();//end of algorithm(fp_1);
+    double seconds = (double)(end - start) / CLOCKS_PER_SEC;
 
     //SECOND
-    vertices_after_decomposition.clear();
+    //vertices_after_decomposition.clear();
     FloorPlan fp_2;
     string input_second = "true_1.txt";
     //string output = "out_1.txt";
     fp_2.input(input_second);
+
+    start = clock();//start of algorithm(fp_2);
 
     const unsigned nsize_2 = fp_2.nmap().size();
     const unsigned csize_2 = fp_2.cmap().size();
@@ -225,12 +233,16 @@ int main(int argc, char const* argv[]) {
     fp_2.output_to_decomposite_without_connection_control("true_2.txt", "false_2.txt", 0, 1, 0, 0, second_connected_vertices_true, second_connected_vertices_false, first_connected_vertices_true, false);
     fp_2.get_true_false_count(size_true_2, size_false_2);
 
+    end = clock();//end of algorithm(fp_2);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
 
     //THIRD
     FloorPlan fp_3;
     string input_third = "false_1.txt";
     //string output = "out_1.txt";
     fp_3.input(input_third);
+
+    start = clock();//start of algorithm(fp_3);
 
     const unsigned nsize_3 = fp_3.nmap().size();
     const unsigned csize_3 = fp_3.cmap().size();
@@ -254,12 +266,16 @@ int main(int argc, char const* argv[]) {
     fp_3.output_to_decomposite_without_connection_control("true_3.txt", "false_3.txt", 0, 1, 0, 0, third_connected_vertices_true, third_connected_vertices_false, first_connected_vertices_false, true);
     fp_3.get_true_false_count(size_true_3, size_false_3);
 
+    end = clock();//end of algorithm(fp_3);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
 
     //FOURTH
     FloorPlan fp_4;
     string input_fourth = "true_3.txt";
     //string output = "out_1.txt";
     fp_4.input(input_fourth);
+
+    start = clock();//start of algorithm(fp_4);
 
     const unsigned nsize_4 = fp_4.nmap().size();
     const unsigned csize_4 = fp_4.cmap().size() /* + first_connected_vertices_false.size() + third_connected_vertices_true.size()*/;//?????????????????????????
@@ -283,12 +299,17 @@ int main(int argc, char const* argv[]) {
     fp_4.output_to_decomposite_without_connection_control("true_4.txt", "false_4.txt", 0, 1, 0, 0, fourth_connected_vertices_true, fourth_connected_vertices_false, empty, false);
     fp_4.get_true_false_count(size_true_4, size_false_4);
 
+    end = clock();//end of algorithm(fp_4);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
+
 
     //FIFTH
     FloorPlan fp_5;
     string input_fifth = "false_2.txt";
     //string output = "out_1.txt";
     fp_5.input(input_fifth);
+
+    start = clock();//start of algorithm(fp_5);
 
     const unsigned nsize_5 = fp_5.nmap().size();
     const unsigned csize_5 = fp_5.cmap().size() /* + second_connected_vertices_false.size() + first_connected_vertices_true.size()*/;//?????????????????????????
@@ -312,12 +333,16 @@ int main(int argc, char const* argv[]) {
     fp_5.output_to_decomposite_without_connection_control("true_5.txt", "false_5.txt", 0, 1, 0, 0, fifth_connected_vertices_true, fifth_connected_vertices_false, empty, false);//different connected vertices
     fp_5.get_true_false_count(size_true_5, size_false_5);
 
+    end = clock();//end of algorithm(fp_5);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
 
     //SIXTH
     FloorPlan fp_6;
     string input_sixth = "true_2.txt";
     //string output = "out_1.txt";
     fp_6.input(input_sixth);
+
+    start = clock();//start of algorithm(fp_6);
 
     const unsigned nsize_6 = fp_6.nmap().size();
     //????????????????????????????????????????????????????????
@@ -344,16 +369,19 @@ int main(int argc, char const* argv[]) {
     fp_6.get_true_false_count(size_true_6, size_false_6);
 
 
+    end = clock();//end of algorithm(fp_6);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
+
     //SEVENTH
     FloorPlan fp_7;
     string input_seventh = "false_3.txt";
     //string output = "out_1.txt";
     fp_7.input(input_seventh);
 
+    start = clock();//start of algorithm(fp_7);
+
     const unsigned nsize_7 = fp_7.nmap().size();
-    //????????????????????????????????????????????????????????
-    const unsigned csize_7 = fp_7.cmap().size() + third_connected_vertices_false.size();//?????????????????????????
-    //????????????????????????????????????????????????????????
+    const unsigned csize_7 = fp_7.cmap().size() + third_connected_vertices_false.size();
     const double bal_7 = fp_7.balance();
 
     const unsigned tolerate_7 = static_cast<unsigned>(bal_7 * csize_7);
@@ -373,6 +401,9 @@ int main(int argc, char const* argv[]) {
     set<unsigned int> seventh_connected_vertices_false;
     fp_7.output_to_decomposite_without_connection_control("true_7.txt", "false_7.txt", 0, 1, 0, 0, seventh_connected_vertices_true, seventh_connected_vertices_false, empty, false);
     fp_7.get_true_false_count(size_true_7, size_false_7);
+
+    end = clock();//end of algorithm(fp_6);
+    seconds += (double)(end - start) / CLOCKS_PER_SEC;
 
     //cout << "Subgraphs size: " << '\n';
     //cout << size_true_1 << " " << size_false_1 << '\n';
@@ -394,6 +425,8 @@ int main(int argc, char const* argv[]) {
     cout << size_true_5 << " " << size_false_5 << '\n';
     cout << size_true_6 << " " << size_false_6 << '\n';
     cout << size_true_7 << " " << size_false_7 << '\n';
+
+    cout << "Time: " << seconds << '\n';
 
     debug_printf("\nProgram exit");
 
