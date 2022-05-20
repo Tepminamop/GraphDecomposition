@@ -1,8 +1,0 @@
-﻿  main.cpp
-C:\GitHub\FM\GraphDecomposition\main.cpp(88,35): warning C4018: <: несоответствие типов со знаком и без знака
-  Создание кода
-  2 of 1713 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    31 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  FM.vcxproj -> C:\GitHub\FM\GraphDecomposition\Release\FM.exe
