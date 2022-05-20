@@ -2,6 +2,7 @@
 *.d
 *.vs
 *x64
+*Release
 
 # Compiled Object files
 *.slo

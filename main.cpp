@@ -117,7 +117,7 @@ int main(int argc, char const* argv[]) {
     cout << "Input filename: " << '\n';
     string filename;
     //cin >> filename;
-    filename = "BK_I.nls";
+    filename = "kuk_top.nls";
     //filename = "TRINITY_1.nls";
     const int COUNT_VERTICES = input_count_vertices;
     vector<vector<int>> input_data(COUNT_VERTICES);
